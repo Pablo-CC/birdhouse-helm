@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: hummingbird
+  name: {{ .Values.hummingbird.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.hummingbird.replicas }}
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      component: hummingbird
+  template:
+    metadata:
+      labels:
+{{ include "default-labels" . | indent 8 }}
+        component: hummingbird
+    spec:
+      volumes:
+        - name: {{ .Values.hummingbird.name }}-config
+          configMap:
+            name: {{ .Values.hummingbird.name }}-custom-config
+      containers:
+        - name: {{ .Values.hummingbird.name }}
+          image: {{ .Values.hummingbird.image }}
+          imagePullPolicy: {{ .Values.hummingbird.imagePullPolicy }}
+          ports:
+          - containerPort: {{ .Values.hummingbird.port }}
+            name: {{ .Values.hummingbird.name }}
+            protocol: TCP
+          volumeMounts:
+            - name: {{ .Values.hummingbird.name }}-config
+              mountPath: /opt/wps/etc/demo.cfg
+              subPath: demo.cfg

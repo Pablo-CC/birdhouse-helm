@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.phoenix.name }}-custom-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: phoenix
+data:
+  custom.cfg: |-
+    [buildout]
+    extends=profiles/docker.cfg
+    [settings]
+    hostname = {{ .Values.phoenix.name }}.{{ .Release.Namespace }}
+    #These ports have to be 
+    http-port = {{ .Values.phoenix.ports.http }}
+    https-port = {{ .Values.phoenix.ports.https }}
+    mongodb-host = {{ .Values.phoenix.mongodb.name}}
+    mongodb-port = {{ .Values.phoenix.mongodb.port }}
+    twitcher-host = {{ .Values.phoenix.name }}
+    twitcher-port = ${:https-port}
+    twitcher-url = https://${:twitcher-host}:${:twitcher-port}
+    twitcher-delegate = false
+    twitcher-workdir = ${settings:prefix}/var/lib/twitcher
+    #Use setPasswd.py to generate your own password (>6 characters)
+    #Default password: qwerty
+    phoenix-password = sha256:ee4886f80459:2a3e88c8d606431c5a124fc08b747acd5fdb49033203a2bdfca1f08d40f22818

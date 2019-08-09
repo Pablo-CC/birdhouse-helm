@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: phoenix
+  name: {{ .Values.phoenix.name }}
+  namespace: {{ .Release.Namespace}}
+spec:
+  ports:
+  - name: http
+    port: {{ .Values.phoenix.ports.http}}
+    protocol: TCP
+    targetPort: {{ .Values.phoenix.ports.http }}
+  - name: https
+    port: {{ .Values.phoenix.ports.https }}
+    targetPort: {{ .Values.phoenix.ports.https }}
+    protocol: TCP
+  - name: output
+    port: {{ .Values.phoenix.ports.output }}
+    targetPort: {{ .Values.phoenix.ports.output }}
+    protocol: TCP
+  selector:
+    release: {{ .Release.Name }}
+    component: phoenix
+  sessionAffinity: None
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.phoenix.mongodb.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    release: {{ .Release.Name }}
+    component: mongodb
+spec:
+  ports:
+  - name: {{ .Values.phoenix.mongodb.name }}
+    port: {{ .Values.phoenix.mongodb.port }}
+    targetPort: {{ .Values.phoenix.mongodb.port }}
+    protocol: TCP
+  selector:
+    app: {{ .Release.Name }}
+    component: mongodb
+  type: ClusterIP

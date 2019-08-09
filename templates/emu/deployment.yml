@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: emu
+  name: {{ .Values.emu.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.emu.replicas }}
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      component: emu
+  template:
+    metadata:
+      labels:
+{{ include "default-labels" . | indent 8 }}
+        component: emu
+    spec:
+      volumes:
+        - name: {{ .Values.emu.name }}-config
+          configMap:
+            name: {{ .Values.emu.name }}-custom-config
+      containers:
+        - name: {{ .Values.emu.name }}
+          image: {{ .Values.emu.image }}
+          imagePullPolicy: {{ .Values.emu.imagePullPolicy }}
+          ports:
+          - containerPort: {{ .Values.emu.port }}
+            name: {{ .Values.emu.name }}
+            protocol: TCP
+          volumeMounts:
+            - name: {{ .Values.emu.name }}-config
+              mountPath: /opt/wps/etc/demo.cfg
+              subPath: demo.cfg

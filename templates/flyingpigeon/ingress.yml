@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.flyingpigeon.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: flyingpigeon
+spec:
+  rules:
+  - host: {{ .Values.flyingpigeon.hostname }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Values.flyingpigeon.name }}
+          servicePort: {{ .Values.flyingpigeon.port }}

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: flyingpigeon
+  name: {{ .Values.flyingpigeon.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.flyingpigeon.replicas }}
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      component: flyingpigeon
+  template:
+    metadata:
+      labels:
+{{ include "default-labels" . | indent 8 }}
+        component: flyingpigeon
+    spec:
+      volumes:
+        - name: {{ .Values.flyingpigeon.name }}-config
+          configMap:
+            name: {{ .Values.flyingpigeon.name }}-custom-config
+      containers:
+        - name: {{ .Values.flyingpigeon.name }}
+          image: {{ .Values.flyingpigeon.image }}
+          imagePullPolicy: {{ .Values.flyingpigeon.imagePullPolicy }}
+          ports:
+          - containerPort: {{ .Values.flyingpigeon.port }}
+            name: {{ .Values.flyingpigeon.name }}
+            protocol: TCP
+          volumeMounts:
+            - name: {{ .Values.flyingpigeon.name }}-config
+              mountPath: /opt/wps/etc/demo.cfg
+              subPath: demo.cfg

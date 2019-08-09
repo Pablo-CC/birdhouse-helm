@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.emu.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: emu
+spec:
+  rules:
+  - host: {{ .Values.emu.hostname }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Values.emu.name }}
+          servicePort: {{ .Values.emu.port }}

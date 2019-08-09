@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: phoenix
+  name:  {{ .Values.phoenix.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.phoenix.replicas }}
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      component: phoenix
+  template:
+    metadata:
+      labels:
+{{ include "default-labels" . | indent 8 }}        
+        component: phoenix
+    spec:
+      volumes:
+        - name: {{ .Values.phoenix.name }}-config
+          configMap:
+            name: {{ .Values.phoenix.name }}-custom-config
+      containers:
+        - name: {{ .Values.phoenix.name }}
+          image: {{ .Values.phoenix.image }}
+          imagePullPolicy: {{ .Values.phoenix.imagePullPolicy }}
+          env:
+            - name: HOSTNAME
+              value: {{ .Values.phoenix.hostname | quote }}
+            - name: HTTP_PORT
+              value: {{ .Values.phoenix.ports.http | quote }}
+            - name: HTTPS_PORT
+              value: {{ .Values.phoenix.ports.https | quote }}
+            - name: OUTPUT_PORT
+              value: {{ .Values.phoenix.ports.output | quote }}
+          ports:
+          - containerPort: {{ .Values.phoenix.ports.http }}
+            name: http
+            protocol: TCP
+          - containerPort: {{ .Values.phoenix.ports.https }}
+            name: https
+            protocol: TCP
+          - containerPort: {{ .Values.phoenix.ports.output }}
+            name: output
+            protocol: TCP
+          volumeMounts:
+            - name: {{ .Values.phoenix.name }}-config
+              mountPath: /opt/birdhouse/src/phoenix/custom.cfg
+              subPath: custom.cfg
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+{{ include "default-labels" . | indent 4 }}    
+    component: mongodb
+  name: {{ .Values.phoenix.mongodb.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.phoenix.mongodb.replicas }}
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      component: mongodb
+  template:
+    metadata:
+      labels:
+{{ include "default-labels" . | indent 8 }}        
+        component: mongodb
+    spec:
+      containers:
+        - name: {{ .Values.phoenix.mongodb.name }}
+          image: {{ .Values.phoenix.mongodb.image }}
+          imagePullPolicy: {{ .Values.phoenix.mongodb.imagePullPolicy }}
+          ports:
+          - containerPort: {{ .Values.phoenix.mongodb.port }}
+            name: {{ .Values.phoenix.mongodb.name }}
+            protocol: TCP

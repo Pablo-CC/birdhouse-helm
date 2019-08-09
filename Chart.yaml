@@ -1,0 +1,10 @@
+apiVersion: v1
+name: birdhouse
+version: 1.0.0
+description: 
+home: https://github.com/Pablo-CC/birdhouse
+sources:
+  - https://github.com/bird-house/pyramid-phoenix
+  - https://github.com/bird-house/emu
+  - https://github.com/bird-house/flyingpigeon
+  - https://github.com/bird-house/hummingbird

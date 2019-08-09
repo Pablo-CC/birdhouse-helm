@@ -1,0 +1,42 @@
+phoenix:
+  name: phoenix
+  image: birdhouse/pyramid-phoenix
+  imagePullPolicy: IfNotPresent
+  replicas: 1
+  ports:
+    http: 8081
+    https: 8443
+    output: 8000
+  hostname: phoenix.192.171.139.109.nip.io
+  mongodb:
+    name: mongodb
+    port: 27017
+    image: mongo:2.6.12
+    imagePullPolicy: IfNotPresent
+
+emu:
+  name: emu
+  image: birdhouse/emu
+  imagePullPolicy: IfNotPresent
+  replicas: 1
+  hostname: emu.192.171.139.109.nip.io
+  port: 5000
+  logLevel: WARN
+
+hummingbird:
+  name: hummingbird
+  image: birdhouse/hummingbird
+  imagePullPolicy: IfNotPresent
+  replicas: 1
+  hostname: hummingbird.192.171.139.109.nip.io
+  port: 5000
+  logLevel: WARN
+
+flyingpigeon:
+  name: flyingpigeon
+  image: birdhouse/flyingpigeon
+  imagePullPolicy: IfNotPresent
+  replicas: 1
+  hostname: flyingpigeon.192.171.139.109.nip.io
+  port: 8039
+  logLevel: WARN

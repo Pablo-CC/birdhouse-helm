@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.hummingbird.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: hummingbird
+spec:
+  rules:
+  - host: {{ .Values.hummingbird.hostname }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Values.hummingbird.name }}
+          servicePort: {{ .Values.hummingbird.port }}

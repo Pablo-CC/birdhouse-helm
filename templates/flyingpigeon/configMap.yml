@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.flyingpigeon.name }}-custom-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: flyingpigeon
+data:
+  demo.cfg: |-
+    [server]
+    url = http://{{ .Values.flyingpigeon.name }}.{{ .Release.Namespace }}:{{ .Values.flyingpigeon.port }}/wps
+    outputurl = http://{{ .Values.flyingpigeon.hostname }}/outputs
+
+    [logging]
+    level = {{ .Values.flyingpigeon.logLevel }}
