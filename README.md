@@ -9,4 +9,17 @@ git clone https://github.com/Pablo-CC/birdhouse-helm.git
 helm install --name birdhouse --namespace birdhouse .
 ```
 
+## Autoscaling
+Kubernetes' Horizontal Pod Autoscaler is used for the autoscaling of the frontend (i.e. Phoenix). The following figures represent the results of this during a load test:
+
+### CPU Usage
+![cpu_usage.png](./plot_hpa/cpu_usage.png)
+### Memory Usage
+![memory_usage.png](./plot_hpa/memory_usage.png)
+### Replicas + Requests
+![replicas_and_requests.png](./plot_hpa/replicas_and_requests.png)
+### Replicas
+![num_of_replicas.png](./plot_hpa/num_of_replicas.png)
+### Requests per second
+![req_per_sec.png](./plot_hpa/req_per_sec.png)
 
