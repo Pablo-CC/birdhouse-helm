@@ -53,11 +53,11 @@ plt.legend(loc='upper left', fontsize='x-large')
 plt.grid(True, linewidth=0.3)
 plt.savefig('memory_usage.png')
 
-#Plot Number of TDS Replicas
+#Plot Number of Phoenix Replicas
 plt.figure(3)
 plt.figure(figsize=(30,10))
 plt.xlabel('Seconds')
-plt.title('TDS Replicas')
+plt.title(' Phoenix Replicas')
 plt.plot(time_plot, replicas['replicas'], linewidth=3)
 plt.grid(True, linewidth=0.3)
 plt.savefig('num_of_replicas.png')
@@ -73,7 +73,7 @@ plt.grid(True, linewidth=0.3)
 plt.savefig('req_per_sec.png')
 
 
-#Plot Number of TDS Replicas & Requests per Sec
+#Plot Number of Phoenix Replicas & Requests per Sec
 fig, ax1 = plt.subplots()
 ax1.grid(True, linewidth=0.3)
 fig.set_figheight(10)

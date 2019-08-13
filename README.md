@@ -6,6 +6,7 @@ In this deployment [Phoenix](https://pyramid-phoenix.readthedocs.io/en/latest/) 
 ## TL;DR
 ```
 git clone https://github.com/Pablo-CC/birdhouse-helm.git
+kubectl create namespace birdhouse
 helm install --name birdhouse --namespace birdhouse .
 ```
 
