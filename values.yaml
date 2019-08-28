@@ -13,6 +13,19 @@ phoenix:
     port: 27017
     image: mongo:2.6.12
     imagePullPolicy: IfNotPresent
+  resources: 
+    requests:
+      #Minimum CPU and RAM requirements (must be set if HPA is enabled)
+      memory: 1Gi
+      cpu: 400m
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 8
+    #CPU and RAM triggers for autoscaling, as percentage of {{ .Values.tds.resources.requests }}
+    cpuUtilization: 80
+    memUtilization: 100
+
 
 emu:
   enabled: true
