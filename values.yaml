@@ -35,7 +35,7 @@ emu:
   replicas: 1
   hostname: emu.xxx.xxx.xxx.xxx.nip.io
   port: 5000
-  logLevel: WARN
+  logLevel: WARNING
 
 hummingbird:
   enabled: true
@@ -45,7 +45,7 @@ hummingbird:
   replicas: 1
   hostname: hummingbird.xxx.xxx.xxx.xxx.nip.io
   port: 5000
-  logLevel: WARN
+  logLevel: WARNING
 
 flyingpigeon:
   enabled: true
@@ -55,4 +55,4 @@ flyingpigeon:
   replicas: 1
   hostname: flyingpigeon.xxx.xxx.xxx.xxx.nip.io
   port: 8039
-  logLevel: WARN
+  logLevel: WARNING
