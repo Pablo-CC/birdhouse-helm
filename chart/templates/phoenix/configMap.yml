@@ -17,7 +17,7 @@ data:
     https-port = {{ .Values.phoenix.ports.https }}
     mongodb-host = {{ .Values.phoenix.mongodb.name}}
     mongodb-port = {{ .Values.phoenix.mongodb.port }}
-    twitcher-host = {{ .Values.phoenix.name }}
+    twitcher-host = localhost
     twitcher-port = ${:https-port}
     twitcher-url = https://${:twitcher-host}:${:twitcher-port}
     twitcher-delegate = false

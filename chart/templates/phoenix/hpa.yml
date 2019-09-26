@@ -1,0 +1,33 @@
+{{ if .Values.phoenix.hpa.enabled }}
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Values.phoenix.name }}-hpa
+  labels:
+{{ include "default-labels" . | indent 4 }}
+    component: phoenix
+spec:
+  minReplicas: {{ .Values.phoenix.hpa.minReplicas }}
+  {{ if lt .Values.phoenix.hpa.maxReplicas .Values.phoenix.replicas }}
+  maxReplicas: {{ .Values.phoenix.replicas }}
+  {{ else }}
+  maxReplicas: {{ .Values.phoenix.hpa.maxReplicas }}
+  {{ end }}
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Values.phoenix.name }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.phoenix.hpa.cpuUtilization }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.phoenix.hpa.memUtilization }}
+{{ end }}

@@ -7,7 +7,7 @@ phoenix:
     http: 8081
     https: 8443
     output: 8000
-  hostname: phoenix.xxx.xxx.xxx.xxx.nip.io
+  hostname: phoenix.192.168.99.103.nip.io
   mongodb:
     name: mongodb
     port: 27017
@@ -33,7 +33,7 @@ emu:
   image: birdhouse/emu
   imagePullPolicy: IfNotPresent
   replicas: 1
-  hostname: emu.xxx.xxx.xxx.xxx.nip.io
+  hostname: emu.192.168.99.103.nip.io
   port: 5000
   logLevel: WARNING
 
@@ -43,7 +43,7 @@ hummingbird:
   image: birdhouse/hummingbird
   imagePullPolicy: IfNotPresent
   replicas: 1
-  hostname: hummingbird.xxx.xxx.xxx.xxx.nip.io
+  hostname: hummingbird.192.168.99.103.nip.io
   port: 5000
   logLevel: WARNING
 
@@ -53,6 +53,6 @@ flyingpigeon:
   image: birdhouse/flyingpigeon
   imagePullPolicy: IfNotPresent
   replicas: 1
-  hostname: flyingpigeon.xxx.xxx.xxx.xxx.nip.io
+  hostname: flyingpigeon.192.168.99.103.nip.io
   port: 8039
   logLevel: WARNING
